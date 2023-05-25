@@ -13,6 +13,8 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private GameObject gridObject;
     private Grid gridScript;
 
+    [SerializeField] Vector2Int[] OtherBlock; // bloklar böyle yapýlcak yeni bu yusuf düzenle bunu
+
 
     private void Start()
     {
@@ -36,9 +38,9 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        transform.SetParent(parentAfterDrag);
+        transform.SetParent(parentAfterDrag);// burda bu gridi baba belirle
         image.raycastTarget = true;
-        gridCellScript = GetComponentInParent<GridCellScript>();
+        gridCellScript = GetComponentInParent<GridCellScript>();//bizim gridin scripti burda burdan grid numarasýný al pivotla eþitle
 
         if(blockType== BlocksEnum._11) 
         {
@@ -77,5 +79,6 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             }
         }
         Destroy(this.gameObject);
+        
     }
 }
