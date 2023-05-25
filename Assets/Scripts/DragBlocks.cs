@@ -9,6 +9,8 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public Image image;
     public Transform parentAfterDrag;
 
+    GridCellScript gridCellScript;
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         parentAfterDrag = transform.parent;
@@ -27,5 +29,8 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         transform.SetParent(parentAfterDrag);
         image.raycastTarget = true;
+        gridCellScript = GetComponentInParent<GridCellScript>();
+        gridCellScript.SetImageFill(true);
+        Destroy(this.gameObject);
     }
 }
