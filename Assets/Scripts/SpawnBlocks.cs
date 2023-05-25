@@ -42,6 +42,16 @@ public class SpawnBlocks : MonoBehaviour
         blockBottom.transform.SetParent(spawnGridBottom.transform);
     }
 
+    public void Forget(GameObject anobject)
+    {
+        if (blockBottom == anobject)
+            blockBottom = null;
+
+        if(blockTop == anobject)   
+            blockTop = null;
+        if (blockMid == anobject)
+            blockMid = null;
+    }
     public List<GameObject> RemainingObjects()
     {
         List<GameObject> ObjectList = new List<GameObject>();
@@ -51,7 +61,7 @@ public class SpawnBlocks : MonoBehaviour
             ObjectList.Add(blockMid);
         if(blockTop!=null)
             ObjectList.Add(blockTop);
-
+        
         return ObjectList;
     }
 }
