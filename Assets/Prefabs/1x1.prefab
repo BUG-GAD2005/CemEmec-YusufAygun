@@ -128,3 +128,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1132238398655054695}
   parentAfterDrag: {fileID: 0}
+  blockType: 0
+  AllBlocks:
+  - {x: 0, y: 0}
