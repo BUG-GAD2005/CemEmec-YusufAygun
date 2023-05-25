@@ -30,7 +30,14 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         transform.SetParent(parentAfterDrag);
         image.raycastTarget = true;
         gridCellScript = GetComponentInParent<GridCellScript>();
-        gridCellScript.SetImageFill(true);
+        if (!gridCellScript.isFilled) 
+        {
+            gridCellScript.SetImageFill(true);
+        }
+        else 
+        {
+            //return piece to start
+        }
         Destroy(this.gameObject);
     }
 }

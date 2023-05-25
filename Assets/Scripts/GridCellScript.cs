@@ -7,6 +7,8 @@ public class GridCellScript : MonoBehaviour
     // Start is called before the first frame update
      GameObject ImageEmpty;
      GameObject ImageFilled;
+
+    public bool isFilled = false;
     
     void Start()
     {
@@ -25,11 +27,13 @@ public class GridCellScript : MonoBehaviour
         ImageFilled = transform.Find("ImageFilled").gameObject;
         if (a)
         {
+            isFilled = true;
             ImageFilled.SetActive(true);
             ImageEmpty.SetActive(false);
         }
         else
         {
+            isFilled = false;
             ImageFilled.SetActive(false);
             ImageEmpty.SetActive(true);
         }
