@@ -68,11 +68,9 @@ public class Grid : MonoBehaviour
         {
             PlaceOnGrid(WantedCells);
             ControlFull();
-            if(IsGameEnd())
-            {
-                EndGame();
-            }
+           
         }
+        
         return CanPlaced;
     }
 
@@ -88,37 +86,45 @@ public class Grid : MonoBehaviour
     {
         Debug.Log("GameOver");
     }
-    bool IsGameEnd()
+    public bool IsGameEnd()
     {
         bool CanPut;
+        List<Vector2Int[]> BLockCells = new List<Vector2Int[]>();
 
-
-        foreach (GameObject block in SpawnerScript.RemainingObjects())
+        foreach (GameObject nesne in SpawnerScript.RemainingObjects())
         {
-            Vector2Int[] BLockCells = block.GetComponent<DragBlocks>().AllBlocks;
 
-            /*BlockLocations[i].x = AllBlocks[i].y + OriginPosOnTheGrid.x;
-            BlockLocations[i].y = AllBlocks[i].x + OriginPosOnTheGrid.y;*/
+            BLockCells.Add(nesne.GetComponent<DragBlocks>().AllBlocks);
 
-            for(int i = 0; i < TotalRows; i++)
+        }
+
+        foreach (Vector2Int[] Blocklar in BLockCells)
+        {
+            for (int i = 0; i < TotalRows; i++)
             {
-                for(int j = 0; j < TotalColumns; j++)
+                for (int j = 0; j < TotalColumns; j++)
                 {
                     CanPut = true;
-                    foreach(Vector2Int ACell in BLockCells)
+                    foreach (Vector2Int ACell in Blocklar)
                     {
-                        if(!IsEmpty(new Vector2Int(ACell.x + i, ACell.y + j)))
+                        if (!IsEmpty(new Vector2Int( ACell.y + j, ACell.x + i)))
                         {
                             CanPut = false;
                             break;
                         }
                     }
                     if (CanPut)
+                    {
+                        
                         return false;
+                    }
                 }
             }
         }
 
+            
+            
+        EndGame();
         return true;
     }
 
@@ -142,6 +148,8 @@ public class Grid : MonoBehaviour
 
     public bool IsEmpty(Vector2Int posvec)
     {
+        if (posvec.x < 0 || posvec.x >= TotalRows || posvec.y < 0 || posvec.y >= TotalColumns)
+            return false;
         return !TheGrid[posvec.y, posvec.x].Filled;
     }
 

@@ -92,7 +92,9 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                 spawnBlocksScript.SpawnThreeBlocks();
             }
 
+            spawnBlocksScript.Forget(this.gameObject);
             Destroy(this.gameObject);
+            gridScript.IsGameEnd();
         }
         else
         {
