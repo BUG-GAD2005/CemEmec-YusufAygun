@@ -25,6 +25,8 @@ public class Grid : MonoBehaviour
     CellStruct[,] TheGrid;
     public float GapBetweenCells = 0.9f;
 
+    int score;
+
 
     void Start()
     {
@@ -62,6 +64,7 @@ public class Grid : MonoBehaviour
         if (CanPlaced)
         {
             PlaceOnGrid(WantedCells);
+            ControlFull();
         }
         return CanPlaced;
     }
@@ -81,9 +84,69 @@ public class Grid : MonoBehaviour
         TheGrid[pos.y, pos.x].SetImage();
     }
 
+    void EmptyCell(Vector2Int pos)
+    {
+        TheGrid[pos.y, pos.x].Filled = false;
+        TheGrid[pos.y, pos.x].SetImage();
+    }
+
     public bool IsEmpty(Vector2Int posvec)
     {
         return !TheGrid[posvec.y, posvec.x].Filled;
+    }
+
+    void ControlFull()
+    {
+        List<int> RowsToDelete = new List<int>();
+        List<int> ColumnsToDelete= new List<int>();
+
+        for(int i=0;i<TotalColumns;i++)
+        {
+            if(IsFullrow(i))
+                RowsToDelete.Add(i);
+        }
+
+        for (int i = 0; i < TotalColumns; i++)
+        {
+            if (IsFullColumn(i))
+                ColumnsToDelete.Add(i);
+        }
+
+        foreach (int i in RowsToDelete)
+        {
+            for(int j = 0; j< TotalColumns; j++)
+            {
+                EmptyCell(new Vector2Int(j, i));
+            }
+            score++;
+        }
+        foreach (int i in ColumnsToDelete)
+        {
+            for (int j = 0; j < TotalRows; j++)
+            {
+                EmptyCell(new Vector2Int(i, j));
+            }
+            score++;
+        }
+
+    }
+    bool IsFullrow(int row)
+    {
+        for(int i=0; i<TotalRows; i++)
+        {
+            if (!TheGrid[row, i].Filled)
+                return false;
+        }
+        return true;
+    }
+    bool IsFullColumn(int row)
+    {
+        for (int i = 0; i < TotalColumns; i++)
+        {
+            if (!TheGrid[i, row].Filled)
+                return false;
+        }
+        return true;
     }
     void CreateGrid()
     {
@@ -108,5 +171,6 @@ public class Grid : MonoBehaviour
         }
     }
 
-  
+
+
 }
