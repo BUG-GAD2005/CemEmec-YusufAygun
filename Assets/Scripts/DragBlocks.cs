@@ -72,29 +72,37 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         transform.SetParent(parentAfterDrag);// burda bu gridi baba belirle
         image.raycastTarget = true;
-        gridCellScript = GetComponentInParent<GridCellScript>();//bizim gridin scripti burda burdan grid numarasýný al pivotla eþitle
-        Vector2Int OriginPosOnTheGrid = gridCellScript.CellNum;
-        Vector2Int[] BlockLocations=new Vector2Int[AllBlocks.Length];
-        
-        for(int i =0;i<AllBlocks.Length; i++)
+        if (gridCellScript = GetComponentInParent<GridCellScript>())//bizim gridin scripti burda burdan grid numarasýný al pivotla eþitle
         {
-            BlockLocations[i].x = AllBlocks[i].y + OriginPosOnTheGrid.x;
-            BlockLocations[i].y = AllBlocks[i].x + OriginPosOnTheGrid.y;
-        }
+            Vector2Int OriginPosOnTheGrid = gridCellScript.CellNum;
+            Vector2Int[] BlockLocations = new Vector2Int[AllBlocks.Length];
 
-        if (gridScript.TryToPlace(BlockLocations)) // trytoplace baþarýlý ise grid scripti denk gelen yerleri fill eder
-        {
-            spawnBlocksScript.spawnCheck++;
-
-            if (spawnBlocksScript.spawnCheck == 3) 
+            for (int i = 0; i < AllBlocks.Length; i++)
             {
-                spawnBlocksScript.spawnCheck = 0;
-                spawnBlocksScript.SpawnThreeBlocks();
+                BlockLocations[i].x = AllBlocks[i].y + OriginPosOnTheGrid.x;
+                BlockLocations[i].y = AllBlocks[i].x + OriginPosOnTheGrid.y;
             }
 
-            spawnBlocksScript.Forget(this.gameObject);
-            Destroy(this.gameObject);
-            gridScript.IsGameEnd();
+            if (gridScript.TryToPlace(BlockLocations)) // trytoplace baþarýlý ise grid scripti denk gelen yerleri fill eder
+            {
+                spawnBlocksScript.spawnCheck++;
+
+                if (spawnBlocksScript.spawnCheck == 3)
+                {
+                    spawnBlocksScript.spawnCheck = 0;
+                    spawnBlocksScript.SpawnThreeBlocks();
+                }
+
+                spawnBlocksScript.Forget(this.gameObject);
+                Destroy(this.gameObject);
+                gridScript.IsGameEnd();
+            }
+            else
+            {
+                Debug.Log("Hata");
+                transform.SetParent(Spawner.transform);
+                spawnBlocksScript.ReturnBlocks();
+            }
         }
         else
         {
