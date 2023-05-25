@@ -68,10 +68,10 @@ public class Grid : MonoBehaviour
         {
             PlaceOnGrid(WantedCells);
             ControlFull();
-            /*if(IsGameEnd())
+            if(IsGameEnd())
             {
                 EndGame();
-            }*/
+            }
         }
         return CanPlaced;
     }
