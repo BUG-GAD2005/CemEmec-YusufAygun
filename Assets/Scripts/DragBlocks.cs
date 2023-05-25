@@ -8,8 +8,17 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 {
     public Image image;
     public Transform parentAfterDrag;
-    [SerializeField] private BlocksEnum blockType = new BlocksEnum();
+    [SerializeField] private BlocksEnum blockType;
     private GridCellScript gridCellScript;
+    private GameObject gridObject;
+    private Grid gridScript;
+
+
+    private void Start()
+    {
+        gridObject = GameObject.FindGameObjectWithTag("Grid");
+        gridScript = gridObject.GetComponent<Grid>();
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -30,13 +39,42 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         transform.SetParent(parentAfterDrag);
         image.raycastTarget = true;
         gridCellScript = GetComponentInParent<GridCellScript>();
-        if (!gridCellScript.isFilled) 
+
+        if(blockType== BlocksEnum._11) 
         {
-            gridCellScript.SetImageFill(true);
+            if (!gridCellScript.isFilled)
+            {
+                gridCellScript.SetImageFill(true);
+            }
+            else
+            {
+                //return piece to start
+            }
         }
-        else 
+
+        else if (blockType == BlocksEnum._22)
         {
-            //return piece to start
+            if (!gridCellScript.isFilled)
+            {
+                if (!gridScript.GetCellCoBool(gridCellScript.CellNum.x, gridCellScript.CellNum.y++)) 
+                {
+                    if(!gridScript.GetCellCoBool(gridCellScript.CellNum.x++, gridCellScript.CellNum.y)) 
+                    {
+                        if (!gridScript.GetCellCoBool(gridCellScript.CellNum.x++, gridCellScript.CellNum.y++)) 
+                        {
+                            Debug.Log(gridCellScript.CellNum);
+                            gridCellScript.SetImageFill(true);
+                            gridScript.SetImageFill(gridCellScript.CellNum.x, gridCellScript.CellNum.y++, true);
+                            gridScript.SetImageFill(gridCellScript.CellNum.x++, gridCellScript.CellNum.y, true);
+                            gridScript.SetImageFill(gridCellScript.CellNum.x++, gridCellScript.CellNum.y++, true);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //return piece to start
+            }
         }
         Destroy(this.gameObject);
     }

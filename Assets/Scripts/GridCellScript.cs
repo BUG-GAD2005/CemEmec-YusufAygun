@@ -7,10 +7,9 @@ public class GridCellScript : MonoBehaviour
     // Start is called before the first frame update
      GameObject ImageEmpty;
      GameObject ImageFilled;
-
     
     public bool isFilled = false;
-    [HideInInspector] public Vector2Int CellNum = new Vector2Int();    
+    public Vector2Int CellNum = new Vector2Int();    
     void Start()
     {
         

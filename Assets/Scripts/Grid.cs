@@ -23,8 +23,15 @@ public class Grid : MonoBehaviour
     Vector2 StartPos=new Vector2(0,0);
     
     CellStruct[,] TheGrid;
-    float GapBetweenCells = 0.9f;   
-    
+    float GapBetweenCells = 0.9f;
+
+
+
+    GameObject ImageEmpty;
+    GameObject ImageFilled;
+
+
+
 
     void Start()
     {
@@ -34,7 +41,36 @@ public class Grid : MonoBehaviour
         CreateGrid();
         Destroy(OriginalCellObject);
 
-        Deneme();
+        //Deneme();
+    }
+
+    public bool GetCellCoBool(int x, int y)
+    {
+        return TheGrid[x, y].Filled;
+    }
+
+    public void SetImageFill(int x, int y, bool a)
+    {
+        ImageEmpty = TheGrid[x,y].CellActor.transform.Find("ImageEmpty").gameObject;
+        ImageFilled =TheGrid[x, y].CellActor.transform.Find("ImageFilled").gameObject;
+        if (a)
+        {
+            //isFilled = true;
+            ImageFilled.SetActive(true);
+            ImageEmpty.SetActive(false);
+        }
+        else
+        {
+            //isFilled = false;
+            ImageFilled.SetActive(false);
+            ImageEmpty.SetActive(true);
+        }
+    }
+
+    public void FillCell(int x,int y) 
+    {
+        TheGrid[x, y].Filled = true;
+        TheGrid[x, y].SetImage();
     }
 
     void Deneme()
