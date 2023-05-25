@@ -69,5 +69,29 @@ public class Grid : MonoBehaviour
         }
     }
 
-  
+    public bool TryToPlace(List<Vector2Int> WantedCells)
+    {
+        bool CanPlaced = true;
+        foreach(Vector2Int ACell in WantedCells)
+        {
+            CanPlaced = IsEmpty(ACell);
+            if (!CanPlaced)
+            {
+                break;
+            }
+        }
+
+        return CanPlaced;
+    }
+    bool IsEmpty(int row, int col)
+    {
+        return !TheGrid[row, col].Filled;
+    }
+    
+    bool IsEmpty(Vector2Int posvec)
+    {
+        return !TheGrid[posvec.x, posvec.y].Filled;
+    }
+    
+
 }
