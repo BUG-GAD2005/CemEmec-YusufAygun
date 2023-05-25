@@ -26,9 +26,9 @@ public class SpawnBlocks : MonoBehaviour
 
     public void SpawnThreeBlocks() 
     {
-        prefabIndexTop = Random.Range(0, prefabs.Count - 1);
-        prefabIndexMid = Random.Range(0, prefabs.Count - 1);
-        prefabIndexBottom = Random.Range(0, prefabs.Count - 1);
+        prefabIndexTop = Random.Range(0, prefabs.Count);
+        prefabIndexMid = Random.Range(0, prefabs.Count);
+        prefabIndexBottom = Random.Range(0, prefabs.Count);
 
         blockTop = Instantiate(prefabs[prefabIndexTop], spawnGridTop.transform);
         blockMid = Instantiate(prefabs[prefabIndexMid], spawnGridMid.transform);

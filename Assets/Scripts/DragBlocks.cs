@@ -94,6 +94,7 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         }
         else
         {
+            Debug.Log("Hata");
             spawnBlocksScript.ReturnBlocks();
         }
     }
