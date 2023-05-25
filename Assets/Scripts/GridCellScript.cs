@@ -8,13 +8,14 @@ public class GridCellScript : MonoBehaviour
      GameObject ImageEmpty;
      GameObject ImageFilled;
 
-    public bool isFilled = false;
     
+    public bool isFilled = false;
+    [HideInInspector] public Vector2Int CellNum = new Vector2Int();    
     void Start()
     {
         
     }
-
+    
     // Update is called once per frame
     void Update()
     {

@@ -60,13 +60,14 @@ public class Grid : MonoBehaviour
                 TheGrid[i, k].Col = k;
                 TheGrid[i, k].Filled = false;
                 TheGrid[i, k].CellActor = Instantiate(OriginalCellObject);
-                
+               
                 TheGrid[i, k].CellActor.transform.localPosition = new Vector2(StartPos.x + GapBetweenCells * i, StartPos.y + GapBetweenCells * k);
                 TheGrid[i, k].CellActor.transform.parent=this.transform;   
                 TheGrid[i, k].CellActor.transform.localScale= OriginalCellObject.transform.localScale;
+                TheGrid[i,k].CellActor.GetComponent<GridCellScript>().CellNum= new Vector2Int( i, k);
             }
         }
     }
 
-   
+  
 }
