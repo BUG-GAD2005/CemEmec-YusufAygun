@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 790546639}
   m_Layer: 5
   m_Name: SpawnGrids
-  m_TagString: Grid
+  m_TagString: SpawnGrid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -17,14 +17,14 @@ public class SpawnBlocks : MonoBehaviour
     private GameObject blockMid;
     private GameObject blockBottom;
 
-    [HideInInspector] public int spawnCheck = 0;
+     public int spawnCheck = 0;
 
     void Start()
     {
         SpawnThreeBlocks();
     }
 
-    private void SpawnThreeBlocks() 
+    public void SpawnThreeBlocks() 
     {
         prefabIndexTop = Random.Range(0, prefabs.Count - 1);
         prefabIndexMid = Random.Range(0, prefabs.Count - 1);

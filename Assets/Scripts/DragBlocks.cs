@@ -15,7 +15,8 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private Vector3 StartPosition=new Vector3(0,0,0);
     private float GapBetweenBlocks;
 
-    [SerializeField] SpawnBlocks spawnBlocksScript;
+    private GameObject spawnGridObject;
+    private SpawnBlocks spawnBlocksScript;
 
     [SerializeField] Vector2Int[] AllBlocks; // bloklar böyle yapýlcak yeni bu yusuf düzenle bunu
 
@@ -24,6 +25,9 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         gridObject = GameObject.FindGameObjectWithTag("Grid");
         gridScript = gridObject.GetComponent<Grid>();
+
+        spawnGridObject = GameObject.FindGameObjectWithTag("SpawnGrid");
+        spawnBlocksScript = spawnGridObject.GetComponent<SpawnBlocks>();
 
         //CreateBlockImage();
         //StartPosition = transform.localPosition;
@@ -78,8 +82,15 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
         if (gridScript.TryToPlace(BlockLocations)) // trytoplace baþarýlý ise grid scripti denk gelen yerleri fill eder
         {
+            spawnBlocksScript.spawnCheck++;
+
+            if (spawnBlocksScript.spawnCheck == 3)
+            {
+                spawnBlocksScript.spawnCheck = 0;
+                spawnBlocksScript.SpawnThreeBlocks();
+            }
+
             Destroy(this.gameObject);
-            
         }
         else
         {
