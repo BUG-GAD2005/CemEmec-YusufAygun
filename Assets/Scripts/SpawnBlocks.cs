@@ -37,9 +37,12 @@ public class SpawnBlocks : MonoBehaviour
 
     public void ReturnBlocks() 
     {
-        blockTop.transform.SetParent(spawnGridTop.transform);
-        blockMid.transform.SetParent(spawnGridMid.transform);
-        blockBottom.transform.SetParent(spawnGridBottom.transform);
+        if (blockTop != null) 
+            blockTop.transform.SetParent(spawnGridTop.transform);
+        if (blockMid != null) 
+            blockMid.transform.SetParent(spawnGridMid.transform);
+        if (blockBottom != null) 
+            blockBottom.transform.SetParent(spawnGridBottom.transform);
     }
 
     public void Forget(GameObject anobject)
