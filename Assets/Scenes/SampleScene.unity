@@ -336,6 +336,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 936247d179284fd4d83c228214b8a12e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFilled: 0
+  CellNum: {x: 0, y: 0}
 --- !u!114 &795387994
 MonoBehaviour:
   m_ObjectHideFlags: 0

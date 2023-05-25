@@ -8,8 +8,8 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 {
     public Image image;
     public Transform parentAfterDrag;
-
-    GridCellScript gridCellScript;
+    [SerializeField] private BlocksEnum blockType = new BlocksEnum();
+    private GridCellScript gridCellScript;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
