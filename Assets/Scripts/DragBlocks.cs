@@ -8,18 +8,41 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 {
     public Image image;
     public Transform parentAfterDrag;
-    [SerializeField] private BlocksEnum blockType;
+    private GameObject BlockImage;
     private GridCellScript gridCellScript;
     private GameObject gridObject;
     private Grid gridScript;
+    private Vector3 StartPosition=new Vector3(0,0,0);
+    private float GapBetweenBlocks;
 
-    [SerializeField] Vector2Int[] OtherBlock; // bloklar böyle yapýlcak yeni bu yusuf düzenle bunu
+    [SerializeField] Vector2Int[] AllBlocks; // bloklar böyle yapýlcak yeni bu yusuf düzenle bunu
 
 
     private void Start()
     {
         gridObject = GameObject.FindGameObjectWithTag("Grid");
         gridScript = gridObject.GetComponent<Grid>();
+
+        //CreateBlockImage();
+        //StartPosition = transform.localPosition;
+    }
+
+    private void CreateBlockImage()
+    {
+        BlockImage = transform.Find("Block").gameObject;
+        GapBetweenBlocks = gridScript.GapBetweenCells;
+        
+
+        for (int i = 0; i < AllBlocks.Length; i++)
+        {
+            GameObject obje = Instantiate(BlockImage);
+            Debug.Log("yaz");
+            Vector3 objepos = transform.position;
+            objepos += new Vector3(AllBlocks[i].y, AllBlocks[i].x) * GapBetweenBlocks;
+            obje.transform.localPosition = objepos;
+            obje.transform.parent = this.transform;
+            obje.transform.localScale = BlockImage.transform.localScale;
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -28,6 +51,7 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
         image.raycastTarget = false;
+        
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -41,44 +65,29 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         transform.SetParent(parentAfterDrag);// burda bu gridi baba belirle
         image.raycastTarget = true;
         gridCellScript = GetComponentInParent<GridCellScript>();//bizim gridin scripti burda burdan grid numarasýný al pivotla eþitle
-
-        if(blockType== BlocksEnum._11) 
+        Vector2Int OriginPosOnTheGrid = gridCellScript.CellNum;
+        Vector2Int[] BlockLocations=new Vector2Int[AllBlocks.Length];
+        
+        for(int i =0;i<AllBlocks.Length; i++)
         {
-            if (!gridCellScript.isFilled)
-            {
-                gridCellScript.SetImageFill(true);
-            }
-            else
-            {
-                //return piece to start
-            }
+            
+
+            BlockLocations[i].x = AllBlocks[i].y + OriginPosOnTheGrid.x;
+            BlockLocations[i].y = AllBlocks[i].x + OriginPosOnTheGrid.y;
         }
 
-        else if (blockType == BlocksEnum._22)
+        if (gridScript.TryToPlace(BlockLocations)) // trytoplace baþarýlý ise grid scripti denk gelen yerleri fill eder
         {
-            if (!gridCellScript.isFilled)
-            {
-                if (!gridScript.GetCellCoBool(gridCellScript.CellNum.x, gridCellScript.CellNum.y++)) 
-                {
-                    if(!gridScript.GetCellCoBool(gridCellScript.CellNum.x++, gridCellScript.CellNum.y)) 
-                    {
-                        if (!gridScript.GetCellCoBool(gridCellScript.CellNum.x++, gridCellScript.CellNum.y++)) 
-                        {
-                            Debug.Log(gridCellScript.CellNum);
-                            gridCellScript.SetImageFill(true);
-                            gridScript.SetImageFill(gridCellScript.CellNum.x, gridCellScript.CellNum.y++, true);
-                            gridScript.SetImageFill(gridCellScript.CellNum.x++, gridCellScript.CellNum.y, true);
-                            gridScript.SetImageFill(gridCellScript.CellNum.x++, gridCellScript.CellNum.y++, true);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                //return piece to start
-            }
+            Destroy(this.gameObject);
+            
         }
-        Destroy(this.gameObject);
+        else
+        {
+            
+            //transform.localPosition=StartPosition;
+            //return pice to start
+        }
+        
         
     }
 }
