@@ -15,6 +15,8 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private Vector3 StartPosition=new Vector3(0,0,0);
     private float GapBetweenBlocks;
 
+    [SerializeField] SpawnBlocks spawnBlocksScript;
+
     [SerializeField] Vector2Int[] AllBlocks; // bloklar böyle yapýlcak yeni bu yusuf düzenle bunu
 
 
@@ -70,8 +72,6 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         
         for(int i =0;i<AllBlocks.Length; i++)
         {
-            
-
             BlockLocations[i].x = AllBlocks[i].y + OriginPosOnTheGrid.x;
             BlockLocations[i].y = AllBlocks[i].x + OriginPosOnTheGrid.y;
         }
@@ -83,11 +83,7 @@ public class DragBlocks : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         }
         else
         {
-            
-            //transform.localPosition=StartPosition;
-            //return pice to start
+            spawnBlocksScript.ReturnBlocks();
         }
-        
-        
     }
 }
