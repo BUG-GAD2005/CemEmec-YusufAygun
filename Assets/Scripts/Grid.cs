@@ -25,6 +25,9 @@ public class Grid : MonoBehaviour
     CellStruct[,] TheGrid;
     public float GapBetweenCells = 0.9f;
 
+  
+    [SerializeField] SpawnBlocks SpawnerScript;
+
     int score;
 
 
@@ -65,6 +68,10 @@ public class Grid : MonoBehaviour
         {
             PlaceOnGrid(WantedCells);
             ControlFull();
+            /*if(IsGameEnd())
+            {
+                EndGame();
+            }*/
         }
         return CanPlaced;
     }
@@ -76,6 +83,49 @@ public class Grid : MonoBehaviour
             FillCell(ACell);
         }
     }
+    
+    void EndGame()
+    {
+        Debug.Log("GameOver");
+    }
+    bool IsGameEnd()
+    {
+        bool CanPut;
+
+
+        foreach (GameObject block in SpawnerScript.RemainingObjects())
+        {
+            Vector2Int[] BLockCells = block.GetComponent<DragBlocks>().AllBlocks;
+
+            /*BlockLocations[i].x = AllBlocks[i].y + OriginPosOnTheGrid.x;
+            BlockLocations[i].y = AllBlocks[i].x + OriginPosOnTheGrid.y;*/
+
+            for(int i = 0; i < TotalRows; i++)
+            {
+                for(int j = 0; j < TotalColumns; j++)
+                {
+                    CanPut = true;
+                    foreach(Vector2Int ACell in BLockCells)
+                    {
+                        if(!IsEmpty(new Vector2Int(ACell.x + i, ACell.y + j)))
+                        {
+                            CanPut = false;
+                            break;
+                        }
+                    }
+                    if (CanPut)
+                        return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+    
+
+
     
     
     void FillCell(Vector2Int pos)

@@ -41,4 +41,17 @@ public class SpawnBlocks : MonoBehaviour
         blockMid.transform.SetParent(spawnGridMid.transform);
         blockBottom.transform.SetParent(spawnGridBottom.transform);
     }
+
+    public List<GameObject> RemainingObjects()
+    {
+        List<GameObject> ObjectList = new List<GameObject>();
+        if(blockBottom!=null) 
+            ObjectList.Add(blockBottom);
+        if(blockMid!=null)
+            ObjectList.Add(blockMid);
+        if(blockTop!=null)
+            ObjectList.Add(blockTop);
+
+        return ObjectList;
+    }
 }
