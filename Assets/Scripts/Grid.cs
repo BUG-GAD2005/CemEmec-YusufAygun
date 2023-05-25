@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 struct CellStruct
 {
@@ -28,9 +30,12 @@ public class Grid : MonoBehaviour
   
     [SerializeField] SpawnBlocks SpawnerScript;
 
+    [SerializeField] private GameObject gameOverText;
+    [SerializeField] private Text scoreText;
     int score;
+    private bool isGameEnd = false;
 
-
+    
     void Start()
     {
         TheGrid = new CellStruct[TotalColumns, TotalRows];
@@ -39,12 +44,19 @@ public class Grid : MonoBehaviour
         CreateGrid();
         Destroy(OriginalCellObject);
 
-        
+        scoreText.text = "Score: ";
     }
                   
     void Update()
     {
-        
+        if (isGameEnd) 
+        {
+            if (Input.GetKeyDown(KeyCode.R)) 
+            {
+                Debug.Log("Restart");
+                SceneManager.LoadScene("TheGame", LoadSceneMode.Single);
+            }
+        }
     }
 
     public bool TryToPlace(Vector2Int[] WantedCells)
@@ -85,6 +97,8 @@ public class Grid : MonoBehaviour
     void EndGame()
     {
         Debug.Log("GameOver");
+        isGameEnd = true;
+        gameOverText.SetActive(true);
     }
     public bool IsGameEnd()
     {
@@ -186,7 +200,7 @@ public class Grid : MonoBehaviour
             }
             score++;
         }
-
+        scoreText.text = "Score: " + score;
     }
     bool IsFullrow(int row)
     {
