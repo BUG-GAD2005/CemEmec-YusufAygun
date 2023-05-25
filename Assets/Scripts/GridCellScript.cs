@@ -5,13 +5,12 @@ using UnityEngine;
 public class GridCellScript : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject ImageEmpty;
-    public GameObject ImageFilled;
+     GameObject ImageEmpty;
+     GameObject ImageFilled;
     
     void Start()
     {
-        ImageEmpty = transform.Find("ImageEmpty").gameObject;
-        ImageFilled = transform.Find("ImageFilled").gameObject;
+        
     }
 
     // Update is called once per frame
